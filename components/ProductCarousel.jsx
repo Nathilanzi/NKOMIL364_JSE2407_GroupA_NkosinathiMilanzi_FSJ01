@@ -30,7 +30,7 @@ export default function ProductCarousel({ images }) {
       </button>
 
       {/* Current image */}
-      <img src={images[currentImageIndex]} alt={`Product Image ${currentImageIndex + 1}`} className="w-full h-96 object-cover rounded" />
+      <img src={images[currentImageIndex]} alt={`Product Image ${currentImageIndex + 1}`} className="w-full h-96 object-contain rounded" />
 
       {/* Next arrow button */}
       <button
