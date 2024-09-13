@@ -21,3 +21,19 @@ export default function Header() {
         <button onClick={toggleNavbar} className="text-white text-2xl">
           &#9776;
         </button>
+
+        <nav className={`${showNavbar ? 'flex' : 'hidden'} flex-col bg-gray-800 p-4 rounded`}>
+          <Link href="/wishlist" className="text-white mb-2">
+            Wishlist
+          </Link>
+          <Link href="/cart" className="text-white mb-2">
+            Cart
+          </Link>
+          <Link href="/login" className="text-white mb-2">
+            Login
+          </Link>
+        </nav>
+      </div>
+    </header>
+  );
+}
