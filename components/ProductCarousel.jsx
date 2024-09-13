@@ -12,3 +12,30 @@ export default function ProductCarousel({ images }) {
       setCurrentImageIndex(currentImageIndex + 1);
     }
   };
+
+  const handlePrev = () => {
+    if (currentImageIndex > 0) {
+      setCurrentImageIndex(currentImageIndex - 1);
+    }
+  };
+
+  return (
+    <div className="carousel relative mb-6">
+      {/* Previous arrow button */}
+      <button
+        className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full"
+        onClick={handlePrev}
+      >
+        <FaArrowLeft />
+      </button>
+
+      {/* Current image */}
+      <img src={images[currentImageIndex]} alt={`Product Image ${currentImageIndex + 1}`} className="w-full h-96 object-cover rounded" />
+
+      {/* Next arrow button */}
+      <button
+        className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-700 text-white p-2 rounded-full"
+        onClick={handleNext}
+      >
+        <FaArrowRight />
+      </button>
