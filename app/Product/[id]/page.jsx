@@ -64,3 +64,46 @@ export default function ProductDetail({ params }) {
       <h1 className="text-2xl mb-2">{product.title}</h1>
       <p className="text-lg font-semibold text-green-600 mb-2">${product.price}</p>
       <p className="text-sm text-gray-600 mb-4">Category: {product.category}</p>
+      
+      {/* Display stock and availability */}
+      <p className="text-sm text-gray-700 mb-4">
+        {product.stock > 0 ? `In Stock: ${product.stock}` : 'Out of Stock'}
+      </p>
+
+      {/* Display rating */}
+      <p className="text-yellow-500 mb-4">
+        Rating: {product.rating.rate} (Based on {product.rating.count} reviews)
+      </p>
+
+      {/* Display tags */}
+      <div className="mb-4">
+        {product.tags && product.tags.length > 0 && (
+          <div>
+            <h2 className="text-lg font-semibold mb-2">Tags:</h2>
+            <ul className="list-disc list-inside">
+              {product.tags.map((tag, index) => (
+                <li key={index} className="text-sm text-gray-600">{tag}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      {/* Display reviews */}
+      <div className="mb-4">
+        <h2 className="text-lg font-semibold mb-2">Reviews:</h2>
+        {product.reviews && product.reviews.length > 0 ? (
+          <ul>
+            {product.reviews.map((review, index) => (
+              <li key={index} className="mb-4 border-b pb-4">
+                <p className="font-semibold text-gray-800">{review.name}</p>
+                <p className="text-xs text-gray-500">{new Date(review.date).toLocaleDateString()}</p>
+                <p className="text-sm text-gray-700 mb-2">{review.comment}</p>
+                <p className="text-yellow-500">Rating: {review.rating}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No reviews available.</p>
+        )}
+      </div>
