@@ -21,6 +21,30 @@ async function fetchProducts(page = 1) {
   }
   return res.json();
 }
+
+/**
+ * Main ProductsPage component that fetches and displays products, along with pagination.
+ * 
+ * @component
+ * @param {Object} searchParams - The URL search parameters.
+ * @param {string} [searchParams.page] - The current page number from the URL.
+ * @returns {JSX.Element} The ProductsPage component, which includes a product grid, pagination, and error handling.
+ */
+export default async function ProductsPage({ searchParams }) {
+  const page = parseInt(searchParams.page) || 1; // Get the current page from URL query (searchParams)
+  let products;
+
+  try {
+    products = await fetchProducts(page); // Fetch products for the current page
+  } catch (error) {
+    return (
+      <div>
+        <h1>Failed to load products</h1>
+        <p>{error.message}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
