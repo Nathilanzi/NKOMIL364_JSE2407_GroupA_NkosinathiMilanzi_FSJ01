@@ -107,3 +107,14 @@ export default function ProductDetail({ params }) {
           <p>No reviews available.</p>
         )}
       </div>
+      
+      {/* Back to products link */}
+      <button 
+        onClick={() => router.push('/')}
+        className="text-blue-500 hover:underline"
+      >
+        Back to Products
+      </button>
+    </div>
+  );
+}
