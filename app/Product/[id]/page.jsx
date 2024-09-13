@@ -33,3 +33,15 @@ export default function ProductDetail({ params }) {
   if (!product) {
     return <p>Loading...</p>;
   }
+
+  return (
+    <div className="max-w-6xl mx-auto my-10 p-5 border rounded-lg shadow-lg">
+      {/* Main product image */}
+      <div className="grid gap-4 mb-4">
+        <div>
+          <img 
+            src={mainImage} 
+            alt={product.title} 
+            className="h-64 rounded-lg" 
+          />
+        </div>
