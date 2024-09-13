@@ -45,3 +45,22 @@ export default function ProductDetail({ params }) {
             className="h-64 rounded-lg" 
           />
         </div>
+        
+        {/* Thumbnail images */}
+        <div className="grid grid-cols-5 gap-4">
+          {product.images.slice(1).map((image, index) => (
+            <div key={index}>
+              <img 
+                src={image} 
+                alt={`Thumbnail ${index + 1}`} 
+                className="h-auto max-w-full rounded-lg cursor-pointer" 
+                onClick={() => setMainImage(image)} // Change main image on thumbnail click
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      <h1 className="text-2xl mb-2">{product.title}</h1>
+      <p className="text-lg font-semibold text-green-600 mb-2">${product.price}</p>
+      <p className="text-sm text-gray-600 mb-4">Category: {product.category}</p>
