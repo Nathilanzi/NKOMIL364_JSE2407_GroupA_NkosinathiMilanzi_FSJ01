@@ -1,37 +1,33 @@
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import ProductCard from "../components/ProductCard";
-import Pagination from "../components/Pagination";
-import Loader from "../components/Loader";
-import ErrorMessage from "../components/ErrorMessage";
+// app/products/page.jsx
+"use client"
+import Link from 'next/link';
+import Pagination from '@/components/Pagination';
+import { useEffect } from 'react';
 
-const PRODUCTS_API = 'https://next-ecommerce-api.vercel.app/products';
+const PAGE_SIZE = 20;
 
-export default function Home({ products, page }) {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [productData, setProductData] = useState(products);
+// Fetch products on the server side in an async component
+async function fetchProducts(page = 1) {
+  const offset = (page - 1) * PAGE_SIZE;
+  const res = await fetch(`https://next-ecommerce-api.vercel.app/products?limit=${PAGE_SIZE}&offset=${offset}`, { cache: 'no-store' });
 
-  const fetchProducts = async (page) => {
-    try {
-      setLoading(true);
-      const res = await fetch(`${PRODUCTS_API}?skip=${(page - 1) * 20}&limit=20`);
-      if (!res.ok) throw new Error("Failed to fetch products");
-      const data = await res.json();
-      setProductData(data);
-      setError(null);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  if (!res.ok) {
+    throw new Error('Failed to fetch products');
+  }
 
-  useEffect(() => {
-    if (page > 1) {
-      fetchProducts(page);
-    }
-  }, [page]);
+  return res.json();
+}
 
-  if (loading) return <Loader />;
-  if (error) return <ErrorMessage message={error} />;
+export default async function ProductsPage({ searchParams }) {
+  const page = parseInt(searchParams.page) || 1;
+
+  useEffect(( ) => {
+    fetchProducts(currentPage);
+  }, [currentPage])
+
+  let products = [];
+  try {
+    products = await fetchProducts(page);
+  } catch (error) {
+    return <p>Failed to load products. Please try again later.</p>;
+  }
