@@ -1,36 +1,119 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+E-commerce Application
+This project is a Next.js e-commerce application that showcases products with detailed views, a product carousel, and pagination. It includes components for displaying individual product details, product cards, a carousel for product images, and navigation elements like pagination and header.
 
-## Getting Started
+Features
+Product Grid: Display products with their images, titles, prices, and categories.
+Product Details Page: Shows detailed information about a product, including images, stock, availability, rating, tags, and reviews.
+Product Carousel: Allows users to view multiple images of a product with navigation controls.
+Pagination: Navigate through different pages of products.
+Responsive Design: Optimized for various screen sizes.
+Components
+ProductCard
+Displays a summary of a product, including its title, price, category, and an optional carousel if multiple images are available.
 
-First, run the development server:
+File: components/ProductCard.jsx
 
-```bash
+Props:
+
+product: An object containing product details such as id, title, price, category, and images.
+ProductCarousel
+Allows users to navigate through multiple images of a product.
+
+File: components/ProductCarousel.jsx
+
+Props:
+
+images: An array of image URLs for the product.
+Features:
+
+Next and Previous buttons for image navigation.
+Image indicators for the current image.
+Pagination
+Provides navigation buttons for moving between pages of products.
+
+File: components/Pagination.jsx
+
+Props:
+
+currentPage: The current page number.
+Header
+A sticky navigation bar with links to the homepage, wishlist, cart, and login page.
+
+File: components/Header.jsx
+
+ProductDetail
+Displays detailed information about a specific product, including main and thumbnail images, stock availability, rating, tags, and reviews.
+
+File: app/products/[id]/page.jsx
+
+Props:
+
+params: Contains the id of the product to fetch and display.
+ErrorMessage
+Displays error messages when there is an issue with data fetching.
+
+File: components/ErrorMessage.jsx
+
+Loader
+Shows a loading indicator while data is being fetched.
+
+File: components/Loader.jsx
+
+Installation
+Clone the repository:
+
+git clone <repository-url>
+cd <repository-directory>
+Install dependencies:
+
+npm install
+Start the development server:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Visit http://localhost:3000 in your browser to view the application.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Usage
+ProductCard Component
+The ProductCard component is used to display products in a grid. Example usage:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+jsx
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+<ProductCard
+  product={{
+    id: 1,
+    title: "Product Title",
+    price: 99.99,
+    category: "Category Name",
+    images: ["image1.jpg", "image2.jpg"]
+  }}
+/>
+ProductCarousel Component
+The ProductCarousel component is used to display a carousel of images. Example usage:
 
-## Learn More
+jsx
 
-To learn more about Next.js, take a look at the following resources:
+<ProductCarousel
+  images={["image1.jpg", "image2.jpg", "image3.jpg"]}
+/>
+Pagination Component
+The Pagination component is used to navigate through pages of products. Example usage:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+jsx
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+<Pagination currentPage={1} />
+ProductDetail Page
+The ProductDetail page displays detailed information about a product. Example route: /products/1.
 
-## Deploy on Vercel
+Contributing
+Fork the repository.
+Create a new branch (git checkout -b feature/your-feature).
+Commit your changes (git commit -am 'Add new feature').
+Push to the branch (git push origin feature/your-feature).
+Create a new Pull Request.
+License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Acknowledgements
+Next.js: Framework used for server-side rendering and static site generation.
+React Icons: Icons used for navigation buttons in the product carousel.
+Flowbite: Image galllery in product details adapted from there.
