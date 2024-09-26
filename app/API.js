@@ -38,3 +38,21 @@ export const fetchProducts = async (params) => {
         throw error; // Rethrow the error for further handling
     }
 };
+
+/**
+ * Fetches categories from the API.
+ *
+ * @async
+ * @returns {Promise<Array>} A promise that resolves to an array of fetched categories.
+ * @throws {Error} Throws an error if the fetch operation fails.
+ */
+export const fetchCategories = async () => {
+    try {
+        const response = await axios.get(`${BASE_URL}/categories`);
+        console.log("Fetched categories successfully:", response.data); // Log successful category fetch
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching categories:', error.response ? error.response.data : error.message);
+        throw error; // Rethrow the error for further handling
+    }
+};
