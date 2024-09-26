@@ -76,6 +76,55 @@ const ProductsPage = () => {
     }
   };
 
+  useEffect(() => {
+    const filters = {
+      category: category || undefined,
+      sortBy: sortBy || undefined,
+      order: order || undefined,
+      search: search || undefined,
+    };
+
+    fetchProductsData(currentPage, filters);
+  }, [category, sortBy, order, search, currentPage]);
+
+  /**
+   * Handles page changes for pagination.
+   *
+   * @param {number} page - The page number to navigate to.
+   */
+  const handlePageChange = (page) => {
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  /**
+   * Applies new filters and sorting to the product list.
+   *
+   * @param {Object} newFilters - The new filters to apply.
+   * @param {string} newFilters.category - The selected category filter.
+   * @param {string} newFilters.sortBy - The field to sort by.
+   * @param {string} newFilters.order - The order of sorting ('asc' or 'desc').
+   * @param {string} newFilters.search - The search term to filter products.
+   */
+  const applyFiltersAndSorting = (newFilters) => {
+    setCurrentPage(1); // Reset to first page on filter change
+
+    const { category, sortBy, order, search } = newFilters;
+
+    console.log("Applying new filters and sorting:", newFilters);
+
+    router.push({
+      pathname: '/products',
+      query: {
+        category: category || '',
+        sortBy: sortBy || 'id',
+        order: order || 'asc',
+        search: search || '',
+      },
+    });
+  };
+
   return (
     <div>
       <h1>Products</h1>
