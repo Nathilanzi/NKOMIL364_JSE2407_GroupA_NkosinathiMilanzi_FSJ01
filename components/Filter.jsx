@@ -28,3 +28,15 @@ export default function Filtering() {
 
     fetchCategories();
   }, []);
+
+  const updateUrl = () => {
+    const params = new URLSearchParams();
+    if (searchQuery) params.set('search', searchQuery);
+    if (selectedCategory) params.set('category', selectedCategory);
+    if (sortOrder) params.set('order', sortOrder);
+    router.push(`/?${params.toString()}`);
+  };
+
+  useEffect(() => {
+    updateUrl();
+  }, [searchQuery, selectedCategory, sortOrder]);
