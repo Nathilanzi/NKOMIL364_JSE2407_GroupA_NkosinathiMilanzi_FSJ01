@@ -37,44 +37,44 @@ const ProductsPage = () => {
    * Fetches products data based on current filters and pagination.
  * 
  * @async
- * @function fetchProducts
- * @param {number} [page=1] - The current page number to fetch products for.
- * @returns {Promise<Array>} The list of products for the current page.
- * @throws {Error} If the fetch request fails.
- */
-async function fetchProducts(page = 1) {
-  const res = await fetch(`https://next-ecommerce-api.vercel.app/products?skip=${(page - 1) * 20}&limit=20`, {
-    cache: 'no-store', // Ensure data is always fresh
-  });
+   * @param {number} page - The current page number.
+   * @param {Object} filters - The filters for fetching products.
+   * @param {string} filters.category - The selected category filter.
+   * @param {string} filters.sortBy - The field to sort by.
+   * @param {string} filters.order - The order of sorting ('asc' or 'desc').
+   * @param {string} filters.search - The search term to filter products.
+   */
+  const fetchProductsData = async (page = 1, filters = {}) => {
+    setLoading(true);
+    setError(null); 
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch products');
-  }
-  return res.json();
-}
+    try {
+      const response = await fetchProducts({
+        skip: (page - 1) * PAGE_SIZE,
+        limit: PAGE_SIZE,
+        search,
+        category,
+        sortBy,
+        order
+      });
 
-/**
- * Main ProductsPage component that fetches and displays products, along with pagination.
- * 
- * @component
- * @param {Object} searchParams - The URL search parameters.
- * @param {string} [searchParams.page] - The current page number from the URL.
- * @returns {JSX.Element} The ProductsPage component, which includes a product grid, pagination, and error handling.
- */
-export default async function ProductsPage({ searchParams }) {
-  const page = parseInt(searchParams.page) || 1; // Get the current page from URL query (searchParams)
-  let products;
+      console.log("Fetched data:", response); // Log fetched data
 
-  try {
-    products = await fetchProducts(page); // Fetch products for the current page
-  } catch (error) {
-    return (
-      <div>
-        <h1>Failed to load products</h1>
-        <p>{error.message}</p>
-      </div>
-    );
-  }
+      if (Array.isArray(response)) {
+        setProducts(response);
+        setTotalPages(Math.ceil(response.length / PAGE_SIZE));
+      } else {
+        console.error("Expected an array of products but got:", response);
+        setProducts([]);
+      }
+    } catch (err) {
+      console.error("Error fetching products:", err.message);
+      setError(err.message);
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
