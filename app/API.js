@@ -16,3 +16,15 @@ const BASE_URL = 'https://next-ecommerce-api.vercel.app';
  * @returns {Promise<Array>} A promise that resolves to an array of fetched products.
  * @throws {Error} Throws an error if the fetch operation fails.
  */
+export const fetchProducts = async (params) => {
+    // Build query parameters with handling for undefined values
+    const queryParams = new URLSearchParams({
+        sortBy: params.sortBy || 'id', // Default sort field
+        order: params.order || 'asc', // Default order
+        limit: params.limit || 20, // Default limit
+        skip: params.skip || 0, // Default skip
+        category: params.category || '', // Pass empty string if undefined
+        search: params.search || '' // Pass empty string if undefined
+    }).toString();
+
+    console.log("Fetching products with params:", queryParams); // Log for debugging
