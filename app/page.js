@@ -35,8 +35,8 @@ const ProductsPage = () => {
 
   /**
    * Fetches products data based on current filters and pagination.
- * 
- * @async
+   *
+   * @async
    * @param {number} page - The current page number.
    * @param {Object} filters - The filters for fetching products.
    * @param {string} filters.category - The selected category filter.
@@ -126,18 +126,71 @@ const ProductsPage = () => {
   };
 
   return (
-    <div>
-      <h1>Products</h1>
+    <>
+      <Head>
+        <title>{`Products - Your Store Name`}</title>
+        <meta name="description" content="Explore our wide range of products available at your store." />
+        <meta name="robots" content="index, follow" />
+      </Head>
+      
+      <div className="mx-auto">
+        <FilterSortComponent
+          setProducts={setProducts}
+          setLoading={setLoading}
+          applyFiltersAndSorting={applyFiltersAndSorting}
+          currentCategory={category}
+          currentSort={sortBy}
+          currentOrder={order}
+          currentSearch={search}
+        />
 
-      {/* Render product grid */}
-      <div className="product-grid grid grid-cols-4 gap-6">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        <div>
+          {loading ? (
+            <p>Loading products...</p>
+          ) : error ? (
+            <p>Error: {error}</p>
+          ) : products.length === 0 ? (
+            <p>No products available</p>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {Array.isArray(products) && products.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+
+              <Pagination 
+                currentPage={currentPage} 
+                totalPages={totalPages} 
+                onPageChange={handlePageChange} 
+              />
+
+              {/* Pagination controls */}
+              <div className="flex justify-center space-x-4 my-10">
+                {currentPage > 1 && (
+                  <button 
+                    onClick={() => handlePageChange(currentPage - 1)} 
+                    className="px-4 py-2 text-blue-500"
+                  >
+                    Previous
+                  </button>
+                )}
+                <span className="text-lg">Page {currentPage} of {totalPages}</span>
+                {currentPage < totalPages && (
+                  <button 
+                    onClick={() => handlePageChange(currentPage + 1)} 
+                    className="px-4 py-2 text-blue-500"
+                  >
+                    Next
+                  </button>
+                )}
+              </div>
+            </>
+          )}
+        </div>
       </div>
-
-      {/* Pagination Component */}
-      <Pagination currentPage={page} totalItems={100} itemsPerPage={20} />
-    </div>
+    </>
   );
-}
+};
+
+export default ProductsPage;
