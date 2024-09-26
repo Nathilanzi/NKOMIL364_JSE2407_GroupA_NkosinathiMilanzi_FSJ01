@@ -1,9 +1,40 @@
-import ProductCard from "../components/ProductCard";
-import Pagination from "../components/Pagination";
-import ProductCarousel from "@/components/ProductCarousel";
+"use client";
+
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation'; 
+import FilterSortComponent from '@/components/Filter';
+import Pagination from '@/components/Pagination';
+import ProductCard from '@/components/ProductCard';
+import { fetchProducts } from './API'; 
+import Head from 'next/head';
+import Link from 'next/link'; // Ensure Link is imported
+
+const PAGE_SIZE = 20;
 
 /**
- * Fetches products from the API.
+ * ProductsPage component to display a list of products with filtering, sorting, and pagination.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered ProductsPage component.
+ */
+const ProductsPage = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Deconstructing URL to get query parameters for category, sort, and search
+  const category = searchParams.get('category') || ''; 
+  const sortBy = searchParams.get('sortBy') || 'id'; 
+  const order = searchParams.get('order') || 'asc'; 
+  const search = searchParams.get('search') || ''; 
+
+  const [products, setProducts] = useState([]); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  /**
+   * Fetches products data based on current filters and pagination.
  * 
  * @async
  * @function fetchProducts
