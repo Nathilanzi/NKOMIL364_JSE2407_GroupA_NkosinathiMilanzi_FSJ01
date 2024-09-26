@@ -28,3 +28,13 @@ export const fetchProducts = async (params) => {
     }).toString();
 
     console.log("Fetching products with params:", queryParams); // Log for debugging
+
+    try {
+        const response = await axios.get(`${BASE_URL}/products?${queryParams}`);
+        console.log("Fetched products successfully:", response.data); // Log successful fetch
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching products:', error.response ? error.response.data : error.message);
+        throw error; // Rethrow the error for further handling
+    }
+};
