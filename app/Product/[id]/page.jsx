@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation'; // Import useSearchParams
 
 export default function ProductDetail({ params }) {
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState('');
   const router = useRouter();
+  const searchParams = useSearchParams(); // Get the search parameters from the URL
   const { id } = params; // Destructure the id from the params
 
   useEffect(() => {
@@ -33,6 +35,11 @@ export default function ProductDetail({ params }) {
   if (!product) {
     return <p>Loading...</p>;
   }
+
+  const handleBackToProducts = () => {
+    // Use router.back() to navigate back to the previous page
+    router.back();
+  };
 
   return (
     <div className="max-w-6xl mx-auto my-10 p-5 border rounded-lg shadow-lg">
@@ -110,7 +117,7 @@ export default function ProductDetail({ params }) {
       
       {/* Back to products link */}
       <button 
-        onClick={() => router.push('/')}
+        onClick={handleBackToProducts}
         className="text-blue-500 hover:underline"
       >
         Back to Products
