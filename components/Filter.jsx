@@ -60,3 +60,51 @@ export default function Filtering() {
     router.push('/');
   };
 
+  return (
+    <div className="p-4 bg-gray-100 rounded-lg shadow-md">
+      <div className="mb-4">
+        <input
+          type="text"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+          placeholder="Search products..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
+      </div>
+
+      <div className="mb-4">
+        <select 
+          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+          value={selectedCategory} 
+          onChange={handleCategoryChange}
+        >
+          <option value="">All Categories</option>
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="mb-4">
+        <select
+          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-300"
+          value={sortOrder} 
+          onChange={handleSortChange}
+        >
+          <option value="">Sort by Price</option>
+          <option value="asc">Price: Low to High</option>
+          <option value="desc">Price: High to Low</option>
+        </select>
+      </div>
+
+      <button
+        onClick={handleRestoreFilters}
+        className="w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600"
+      >
+        Reset Filters
+      </button>
+    </div>
+  );
+}
