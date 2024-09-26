@@ -3,20 +3,38 @@
 import Link from 'next/link';
 import Pagination from '@/components/Pagination';
 import { useEffect } from 'react';
+import SearchBar from './SearchBar';
+import CategoryFilter from './CategoryFilter';
+import PriceSort from './PriceSort';
+import Pagination from './Pagination';
+import ProductImage from './ProductImage';
+
 
 const PAGE_SIZE = 20;
 
 // Fetch products on the server side in an async component
-async function fetchProducts(page = 1) {
-  const offset = (page - 1) * PAGE_SIZE;
-  const res = await fetch(`https://next-ecommerce-api.vercel.app/products?limit=${PAGE_SIZE}&offset=${offset}`, { cache: 'no-store' });
+async function fetchProducts(page = 1, search = '', category = '', sort = '') {
+  const params = new URLSearchParams({
+    skip: (page - 1) * 20,
+    limit: 20,
+  });
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch products');
+  if (search) params.append('search', search);
+  if (category) params.append('category', category);
+  if (sort) {
+    params.append('sortBy', 'price');
+    params.append('order', sort);
   }
 
+  const res = await fetch(`https://next-ecommerce-api.vercel.app/products?${params.toString()}`, {
+    cache: 'no-store',
+  });
+
+  if (!res.ok) throw new Error('Failed to fetch products');
+  
   return res.json();
 }
+
 
 export default async function ProductsPage({ searchParams }) {
   const page = parseInt(searchParams.page) || 1;
@@ -51,7 +69,7 @@ export default async function ProductsPage({ searchParams }) {
 
     <Pagination currentPage={currentPage} />
       {/* Pagination controls */}
-      {/* <div className="flex justify-center space-x-4 my-10">
+      <div className="flex justify-center space-x-4 my-10"> 
         {page > 1 && (
           <Link href={`?page=${page - 1}`} className="px-4 py-2 text-blue-500">
             Previous
@@ -61,7 +79,7 @@ export default async function ProductsPage({ searchParams }) {
         <Link href={`?page=${page + 1}`} className="px-4 py-2 text-blue-500">
           Next
         </Link>
-      </div> */}
+      </div> 
     </div>
   );
 }
