@@ -1,9 +1,11 @@
 import Link from 'next/link';
 import ProductCarousel from './ProductCarousel';
+import Image from 'next/image';
 
 export default function ProductCard({ product }) {
   return (
     <div className="product-card border rounded-md p-4 shadow hover:shadow-lg">
+      <image>
       <div className="cursor-pointer">
         {/* Only wrap title, price, and category in the Link, not the carousel */}
         {product.images && product.images.length > 1 ? (
@@ -17,6 +19,7 @@ export default function ProductCard({ product }) {
         <p className="text-gray-700">${product.price}</p>
         <p className="text-gray-500">Category: {product.category}</p>
       </div>
+      </image>
     </div>
   );
 }
