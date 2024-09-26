@@ -11,3 +11,20 @@ export default function Filtering() {
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || '');
   const [sortOrder, setSortOrder] = useState(searchParams.get('order') || ''); 
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const res = await fetch('https://next-ecommerce-api.vercel.app/categories');
+        if (!res.ok) {
+          throw new Error('Failed to fetch categories');
+        }
+        const data = await res.json();
+        setCategories(data);
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+
+    fetchCategories();
+  }, []);
