@@ -40,3 +40,23 @@ export default function Filtering() {
   useEffect(() => {
     updateUrl();
   }, [searchQuery, selectedCategory, sortOrder]);
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  }
+
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+  };
+
+  const handleSortChange = (e) => {
+    setSortOrder(e.target.value);
+  };
+
+  const handleRestoreFilters = () => {
+    setSearchQuery('');
+    setSelectedCategory('');
+    setSortOrder('');
+    router.push('/');
+  };
+
